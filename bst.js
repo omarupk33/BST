@@ -20,7 +20,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 function Tree(array){
 
     let root = null
-
+    // should sort and remove duplicates
     array.sort()
 
     function buildTree(array, start= 0 , end = array.length - 1){
@@ -50,26 +50,25 @@ function Tree(array){
         return false
     }
 
-    function insertion(value){
-        for (let element of array){
-        if(value > element){
-            array.push(value)
-            array.sort()
-            break
+    function insert(value, rt=root){
+        if (rt === undefined){return new treeNode(value)}
+
+        if (value < rt.data){
+            rt.left = insert(value, rt.left) 
         }
+        else{
+            rt.right = insert(value, rt.right)
+        }
+        return root
         }
 
-        root = buildTree(array)
-        prettyPrint(root)
-    }
 
-
-    return {root,  includes, insertion}
+    return {root, includes, insert}
 }
 
 let thatOneTree = new Tree([1,2,4,3,5,6,7,9])
 
-thatOneTree.insertion(0)
+// not working despite the efforts
+thatOneTree.insert(0)
 
-// prettyPrint(thatOneTree.root)
-// console.log(thatOneTree.includes(6))
+prettyPrint(thatOneTree.root.data)
