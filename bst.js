@@ -1,8 +1,8 @@
 class treeNode{
-    constructor(data, left, right){
+    constructor(data){
         this.data = data
-        this.left = left
-        this.right = right 
+        this.left = null
+        this.right = null 
     }
 }
 
@@ -25,12 +25,11 @@ function Tree(array){
 
     function buildTree(array, start= 0 , end = array.length - 1){
     if (start > end){
-     return array
+     return null
     }
 
-    let mid = Math.ceil((start + end)/2)
+    let mid = Math.floor((start + end)/2)
     let root = new treeNode(array[mid])
-    root.data = array[mid]
     root.left = buildTree(array,start, mid - 1)
     root.right = buildTree(array, mid + 1, end)
 
@@ -51,24 +50,27 @@ function Tree(array){
     }
 
     function insert(value, rt=root){
-        if (rt === undefined){return new treeNode(value)}
+        if (rt === undefined || rt === null){return new treeNode(value)}
 
         if (value < rt.data){
             rt.left = insert(value, rt.left) 
         }
-        else{
+        else if (value > rt.data){
             rt.right = insert(value, rt.right)
         }
-        return root
+        else{
+            return null
+        }
         }
 
 
     return {root, includes, insert}
 }
 
-let thatOneTree = new Tree([1,2,4,3,5,6,7,9])
+let thatOneTree = new Tree([1,4,3,5,6,7,9])
 
 // not working despite the efforts
-thatOneTree.insert(0)
+thatOneTree.insert(10)
 
-prettyPrint(thatOneTree.root.data)
+prettyPrint(thatOneTree.root)
+console.log(thatOneTree.root)
