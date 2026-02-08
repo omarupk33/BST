@@ -61,6 +61,30 @@ function Tree(array){
         else{
             return null
         }
+        return rt
+        }
+
+// Advanced to here. Good work fello!
+        function deleteItem(value, rt=root){
+            if(rt === undefined || rt === null){return null}
+            if (rt.data === value){
+                if (value < rt.data){
+                rt.left = deleteItem(value, rt.left) 
+            }
+            else if (value > rt.data){
+                rt.right = deleteItem(value, rt.right)
+            }
+            }
+            else{
+                if (value < rt.data){
+                    rt.left = deleteItem(value, rt.left)
+                } 
+                else if(value > rt.data){
+                    rt.right = deleteItem(value, rt.right)
+                }
+            }
+
+        return rt
         }
 
 
@@ -70,7 +94,7 @@ function Tree(array){
 let thatOneTree = new Tree([1,4,3,5,6,7,9])
 
 // not working despite the efforts
-thatOneTree.insert(10)
+
+thatOneTree.insert(80)
 
 prettyPrint(thatOneTree.root)
-console.log(thatOneTree.root)
