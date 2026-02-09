@@ -70,7 +70,6 @@ function Tree(array){
             let target = themainRoot
             let parent = null
             // Need the parent here
-
             while(target.data !== value){
                 if(value < target.data){
                     parent = target
@@ -92,6 +91,22 @@ function Tree(array){
             // When found check what type of node we got
             // Has no children
             if(target.left === null && target.right === null){
+                if(parent.left.data === target.data){parent.left = null}
+                else{parent.right = null}
+            }
+
+            // Has children on left
+            else if(target.left !== null && target.right === null){
+                if(parent.left.data === target.data){parent.left = target.left}
+                else{parent.right = target.left}
+            }
+
+            // Has children on right
+            else if(target.right !== null && target.left === null){
+                if(parent.left.data === target.data){parent.left = target.right}   
+                else{parent.right = target.right}
+            }
+            else{
 
             }
             // Parent of one
