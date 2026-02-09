@@ -65,36 +65,55 @@ function Tree(array){
         }
 
 // Advanced to here. Good work fello!
-        function deleteItem(value, rt=root){
-            if(rt === undefined || rt === null){return null}
-            if (rt.data === value){
-                if (value < rt.data){
-                rt.left = deleteItem(value, rt.left) 
-            }
-            else if (value > rt.data){
-                rt.right = deleteItem(value, rt.right)
-            }
-            }
-            else{
-                if (value < rt.data){
-                    rt.left = deleteItem(value, rt.left)
-                } 
-                else if(value > rt.data){
-                    rt.right = deleteItem(value, rt.right)
+        function deleteItem(value, themainRoot=root){
+            // Search for the value
+            let target = themainRoot
+            let parent = null
+            // Need the parent here
+
+            while(target.data !== value){
+                if(value < target.data){
+                    parent = target
+                    target = target.left
+                    if(target === null){return undefined}
+                }
+
+                else if(value > target.data){
+                    parent = target
+                    target = target.right
+                    if(target === null){return undefined}
+                }
+
+                else{
+                    break
                 }
             }
 
-        return rt
+            // When found check what type of node we got
+            // Has no children
+            if(target.left === null && target.right === null){
+
+            }
+            // Parent of one
+
+            // Parent of two
+
+
+
+            // Should be deleted 
+            console.log(target)
+            console.log(parent)
+
+            prettyPrint(themainRoot)
+            return target
         }
 
 
-    return {root, includes, insert}
+    return {root, includes, insert, deleteItem}
 }
 
 let thatOneTree = new Tree([1,4,3,5,6,7,9])
 
-// not working despite the efforts
+thatOneTree.deleteItem(1)
 
-thatOneTree.insert(80)
-
-prettyPrint(thatOneTree.root)
+// prettyPrint(thatOneTree.root)
