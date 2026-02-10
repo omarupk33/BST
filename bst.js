@@ -97,27 +97,32 @@ function Tree(array){
 
             // Has children on left
             else if(target.left !== null && target.right === null){
-                if(parent.left.data === target.data){parent.left = target.left}
+                if(parent.left.data === target.data)
+                    {parent.left = target.left}
+
                 else{parent.right = target.left}
             }
 
             // Has children on right
             else if(target.right !== null && target.left === null){
-                if(parent.left.data === target.data){parent.left = target.right}   
+                if(parent.left.data === target.data)
+                    {parent.left = target.right}
+
                 else{parent.right = target.right}
             }
             else{
+                let rightChild = target.right
 
+                if(parent.left.data === target.data){
+                    parent.left = target.left
+                    parent.left.right = rightChild
+                }   
+
+                else{
+                    parent.right = target.left
+                    parent.right.right = rightChild
+                }   
             }
-            // Parent of one
-
-            // Parent of two
-
-
-
-            // Should be deleted 
-            console.log(target)
-            console.log(parent)
 
             prettyPrint(themainRoot)
             return target
@@ -127,8 +132,8 @@ function Tree(array){
     return {root, includes, insert, deleteItem}
 }
 
-let thatOneTree = new Tree([1,4,3,5,6,7,9])
+let thatOneTree = new Tree([0,1,4,3,5,6,7])
+prettyPrint(thatOneTree.root)
 
 thatOneTree.deleteItem(1)
 
-// prettyPrint(thatOneTree.root)
