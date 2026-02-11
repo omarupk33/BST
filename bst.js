@@ -129,11 +129,41 @@ function Tree(array){
         }
 
 
-    return {root, includes, insert, deleteItem}
+//Write a levelOrderForEach(callback) function that accepts a callback function as its parameter.
+//  levelOrderForEach() should traverse the tree in breadth-first level order and call the callback on each value
+//  as it traverses, passing each value (not the nodes) as an argument, similarly to how Array.prototype.forEach() 
+// might work for arrays. levelOrderForEach() may be implemented using either
+//  iteration or recursion (try implementing both!). If no callback function is provided, 
+// throw an Error reporting that a callback is required.
+        function printvalue(value){console.log(value)}
+
+        function levelOrderForEach(rt=root, callback= printvalue){
+            if(rt === null){
+                return 
+            }
+            callback(rt.data)
+            levelOrderForEach(rt.left)
+            levelOrderForEach(rt.right)
+            return 
+        }
+
+
+
+// Using a queue
+// You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to 
+// traverse and to add new ones to the list.
+//  If you need a visualization, watch mycodeschool’s video on level order traversal.
+
+
+
+
+    return {root, includes, insert, deleteItem, levelOrderForEach}
 }
 
 let thatOneTree = new Tree([0,1,4,3,5,6,7])
-prettyPrint(thatOneTree.root)
+// prettyPrint(thatOneTree.root)
 
-thatOneTree.deleteItem(1)
+
+
+thatOneTree.levelOrderForEach(thatOneTree.root,printvalue)
 
