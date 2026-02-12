@@ -128,42 +128,50 @@ function Tree(array){
             return target
         }
 
+        function printvalue(value){
+         console.log(value)
+         return
+        }
 
-//Write a levelOrderForEach(callback) function that accepts a callback function as its parameter.
-//  levelOrderForEach() should traverse the tree in breadth-first level order and call the callback on each value
-//  as it traverses, passing each value (not the nodes) as an argument, similarly to how Array.prototype.forEach() 
-// might work for arrays. levelOrderForEach() may be implemented using either
-//  iteration or recursion (try implementing both!). If no callback function is provided, 
-// throw an Error reporting that a callback is required.
-        function printvalue(value){console.log(value)}
-
-        function levelOrderForEach(rt=root, callback= printvalue){
+        function levelOrderForEach(rt= root, callback= printvalue){
             if(rt === null){
                 return 
             }
-            callback(rt.data)
-            levelOrderForEach(rt.left)
-            levelOrderForEach(rt.right)
-            return 
+
+
+            if (array.at(Math.floor((0 + array.length)/2)) === rt.data)
+            {callback(rt.data)}
+            
+            if(rt.left !== null){
+                callback(rt.left.data)
+            }
+
+            if(rt.right !== null){
+                callback(rt.right.data)
+            }
+
+                levelOrderForEach(rt.left);
+                levelOrderForEach(rt.right);
         }
 
 
+        function levelOrderForEachIterate(callback= printvalue){
+            let dequeue = []
+            dequeue.push(root)
+            while(dequeue.length !== 0){
+                let curr = dequeue[0]
+                callback(curr.data)
+                if(curr.left !== null){dequeue.push(curr.left)}
+                if(curr.right !== null){dequeue.push(curr.right)}
+                dequeue.shift()
+            }            
+        }
 
-// Using a queue
-// You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to 
-// traverse and to add new ones to the list.
-//  If you need a visualization, watch mycodeschool’s video on level order traversal.
-
-
-
-
-    return {root, includes, insert, deleteItem, levelOrderForEach}
+    return {root, includes, insert, deleteItem, levelOrderForEach, levelOrderForEachIterate}
 }
 
 let thatOneTree = new Tree([0,1,4,3,5,6,7])
-// prettyPrint(thatOneTree.root)
 
 
-
-thatOneTree.levelOrderForEach(thatOneTree.root,printvalue)
-
+thatOneTree.levelOrderForEach()
+prettyPrint(thatOneTree.root)
