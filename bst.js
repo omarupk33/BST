@@ -133,7 +133,10 @@ function Tree(array){
          return
         }
 
-        function levelOrderForEach(rt= root, callback= printvalue){
+        function levelOrderForEach(rt= root, callback){
+            if(typeof(callback) !== 'function'){
+                throw Error('Error occurred: callback is not a function')
+            }
             if(rt === null){
                 return 
             }
@@ -155,7 +158,11 @@ function Tree(array){
         }
 
 
-        function levelOrderForEachIterate(callback= printvalue){
+        function levelOrderForEachIterate(callback){
+            if(typeof(callback) !== 'function'){
+                throw Error('Error occurred: callback is not a function')
+            }
+
             let dequeue = []
             dequeue.push(root)
             while(dequeue.length !== 0){
@@ -164,14 +171,89 @@ function Tree(array){
                 if(curr.left !== null){dequeue.push(curr.left)}
                 if(curr.right !== null){dequeue.push(curr.right)}
                 dequeue.shift()
-            }            
+            } 
         }
 
-    return {root, includes, insert, deleteItem, levelOrderForEach, levelOrderForEachIterate}
+        function inOrderForEach(rt= root, callback=printvalue){
+            if(typeof(callback) !== 'function'){
+                throw Error('Error occurred: callback is not a function')
+            }
+            if(rt === null){
+                return 
+            }
+
+            if(rt.left !== null){
+                inOrderForEach(rt.left);
+            }
+            callback(rt.data)
+            if(rt.right !== null){
+                inOrderForEach(rt.right);
+            }
+        }
+
+
+        function preOrderForEach(rt= root, callback=printvalue){
+            if(typeof(callback) !== 'function'){
+                throw Error('Error occurred: callback is not a function')
+            }
+            if(rt === null){
+                return 
+            }
+
+            callback(rt.data)
+            if(rt.left !== null){  preOrderForEach(rt.left)}
+            if(rt.right !== null){ preOrderForEach(rt.right)}
+        }
+
+
+        function postOrderForEach(rt= root, callback=printvalue){
+            if(typeof(callback) !== 'function'){
+                throw Error('Error occurred: callback is not a function')
+            }
+            if(rt === null){
+                return 
+            }
+            if(typeof(callback) !== 'function'){
+                throw Error('Error occurred: callback is not a function')
+            }
+            if(rt === null){
+                return 
+            }
+
+            if(rt.left !== null){
+                postOrderForEach(rt.left);
+            }
+            if(rt.right !== null){
+                postOrderForEach(rt.right);
+            }
+            callback(rt.data)
+        }
+
+        function height(){
+
+        }
+        function depth(value,rt=root, level= 0){
+        if(!includes(value)){return undefined}
+        if( rt === null){
+            return 
+        }
+
+        if (value < rt.data){
+            rt.left = depth(value, rt.left, level+1) 
+        }
+        else if (value > rt.data){
+            rt.right = depth(value, rt.right, level+1)
+        }
+        else{return level}
+        }
+
+    return {root, includes, insert, deleteItem, levelOrderForEach, levelOrderForEachIterate
+        ,inOrderForEach, preOrderForEach, postOrderForEach, depth
+    }
 }
 
-let thatOneTree = new Tree([0,1,4,3,5,6,7])
+let thatOneTree = new Tree([0,1,2,3,4,5,6,7])
 
 
-thatOneTree.levelOrderForEach()
+console.log(thatOneTree.depth(1))
 prettyPrint(thatOneTree.root)
