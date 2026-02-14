@@ -229,31 +229,76 @@ function Tree(array){
             callback(rt.data)
         }
 
-        function height(){
+        function height(value, rt = root){
+        if(!includes(value)){return undefined} 
+
+        if( value === rt.data){
+            return findHeight(rt)
+        }
+        let value_height
+        if (value < rt.data){
+           value_height = height(value, rt.left) 
+        }
+        else if (value > rt.data){
+           value_height = height(value, rt.right)
+        }
+
+        return value_height
+
+        }
+
+        function findHeight(rt=root){
+
+        // if( value === rt.data){return level}
+        if(rt === null){return -1}
+            // let value_height = level
+           let left_height = findHeight(rt.left) 
+           let right_height = findHeight(rt.right)
+
+        return Math.max(left_height, right_height) + 1
 
         }
         function depth(value,rt=root, level= 0){
-        if(!includes(value)){return undefined}
-        if( rt === null){
-            return 
-        }
+        if(!includes(value) || rt === null){return undefined}
 
+        if( value === rt.data){
+            return level
+        }
+        let value_depth = level
         if (value < rt.data){
-            rt.left = depth(value, rt.left, level+1) 
+           value_depth = depth(value, rt.left, level+1) 
         }
         else if (value > rt.data){
-            rt.right = depth(value, rt.right, level+1)
-        }
-        else{return level}
+           value_depth = depth(value, rt.right, level+1)
         }
 
+        return value_depth
+        }
+
+        function isBalanced(rt=root){
+            let dequeue = []
+            dequeue.push(root)
+            while(dequeue.length !== 0){
+                let curr = dequeue[0]
+                if(curr.left !== null){dequeue.push(curr.left)}
+                if(curr.right !== null){dequeue.push(curr.right)}
+                if(Math.abs(findHeight(curr.left) - findHeight(curr.right)) > 1){return false}
+                dequeue.shift()
+            } 
+            return true
+        }
     return {root, includes, insert, deleteItem, levelOrderForEach, levelOrderForEachIterate
-        ,inOrderForEach, preOrderForEach, postOrderForEach, depth
+        ,inOrderForEach, preOrderForEach, postOrderForEach, depth, height, isBalanced
     }
 }
 
 let thatOneTree = new Tree([0,1,2,3,4,5,6,7])
 
+thatOneTree.insert(-1)
+thatOneTree.insert(-2)
+// thatOneTree.insert(10)
 
-console.log(thatOneTree.depth(1))
+
+// height
+console.log(thatOneTree.isBalanced())
 prettyPrint(thatOneTree.root)
