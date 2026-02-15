@@ -64,12 +64,11 @@ function Tree(array){
         return rt
         }
 
-// Advanced to here. Good work fello!
         function deleteItem(value, themainRoot=root){
-            // Search for the value
+
             let target = themainRoot
             let parent = null
-            // Need the parent here
+    
             while(target.data !== value){
                 if(value < target.data){
                     parent = target
@@ -88,14 +87,11 @@ function Tree(array){
                 }
             }
 
-            // When found check what type of node we got
-            // Has no children
             if(target.left === null && target.right === null){
                 if(parent.left.data === target.data){parent.left = null}
                 else{parent.right = null}
             }
 
-            // Has children on left
             else if(target.left !== null && target.right === null){
                 if(parent.left.data === target.data)
                     {parent.left = target.left}
@@ -103,7 +99,7 @@ function Tree(array){
                 else{parent.right = target.left}
             }
 
-            // Has children on right
+
             else if(target.right !== null && target.left === null){
                 if(parent.left.data === target.data)
                     {parent.left = target.right}
@@ -143,7 +139,7 @@ function Tree(array){
 
 
             if (array.at(Math.floor((0 + array.length)/2)) === rt.data)
-            {callback(rt.data)}
+               {callback(rt.data)}
             
             if(rt.left !== null){
                 callback(rt.left.data)
@@ -174,7 +170,7 @@ function Tree(array){
             } 
         }
 
-        function inOrderForEach(rt= root, callback=printvalue){
+        function inOrderForEach(rt= root, callback){
             if(typeof(callback) !== 'function'){
                 throw Error('Error occurred: callback is not a function')
             }
@@ -189,10 +185,12 @@ function Tree(array){
             if(rt.right !== null){
                 inOrderForEach(rt.right);
             }
+
+            return callback()
         }
 
 
-        function preOrderForEach(rt= root, callback=printvalue){
+        function preOrderForEach(rt= root, callback){
             if(typeof(callback) !== 'function'){
                 throw Error('Error occurred: callback is not a function')
             }
@@ -203,19 +201,16 @@ function Tree(array){
             callback(rt.data)
             if(rt.left !== null){  preOrderForEach(rt.left)}
             if(rt.right !== null){ preOrderForEach(rt.right)}
+
+            return callback()
         }
 
 
-        function postOrderForEach(rt= root, callback=printvalue){
+        function postOrderForEach(rt= root, callback){
             if(typeof(callback) !== 'function'){
                 throw Error('Error occurred: callback is not a function')
             }
-            if(rt === null){
-                return 
-            }
-            if(typeof(callback) !== 'function'){
-                throw Error('Error occurred: callback is not a function')
-            }
+
             if(rt === null){
                 return 
             }
@@ -227,6 +222,9 @@ function Tree(array){
                 postOrderForEach(rt.right);
             }
             callback(rt.data)
+
+            return callback()
+
         }
 
         function height(value, rt = root){
@@ -248,16 +246,13 @@ function Tree(array){
         }
 
         function findHeight(rt=root){
-
-        // if( value === rt.data){return level}
         if(rt === null){return -1}
-            // let value_height = level
            let left_height = findHeight(rt.left) 
            let right_height = findHeight(rt.right)
 
         return Math.max(left_height, right_height) + 1
-
         }
+
         function depth(value,rt=root, level= 0){
         if(!includes(value) || rt === null){return undefined}
 
@@ -287,18 +282,28 @@ function Tree(array){
             } 
             return true
         }
-    return {root, includes, insert, deleteItem, levelOrderForEach, levelOrderForEachIterate
-        ,inOrderForEach, preOrderForEach, postOrderForEach, depth, height, isBalanced
+
+        function reBalance(){
+
+            let new_list = []
+            let pushToList = (data)=>{new_list.push(data)}
+            // error here
+            inOrderForEach(root, pushToList)
+
+            root = buildTree(new_list)
+        }
+
+    return {root, includes, insert, deleteItem, levelOrderForEach,
+        levelOrderForEachIterate, inOrderForEach, preOrderForEach,
+        postOrderForEach, depth, height, isBalanced, reBalance,
     }
+
 }
 
 let thatOneTree = new Tree([0,1,2,3,4,5,6,7])
 
-thatOneTree.insert(-1)
-thatOneTree.insert(-2)
-// thatOneTree.insert(10)
+thatOneTree.insert(9)
+console.log(thatOneTree.reBalance())
 
-
-// height
 console.log(thatOneTree.isBalanced())
 prettyPrint(thatOneTree.root)
